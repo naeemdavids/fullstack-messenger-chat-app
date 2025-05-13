@@ -10,6 +10,7 @@ import { app, server } from "./lib/socket.js";
 import adminRoutes from "./routes/admin.route.js";
 
 import session from "express-session";
+import MemoryStore from "memorystore";
 import passport from "./lib/passport.js";
 
 import path from "path";
@@ -19,7 +20,9 @@ dotenv.config();
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
-app.use(express.json({ limit: "5mb" })); // Allow JSON bodies up to 5MB for image uploads.
+app.use(
+  express.json({ limit: "5mb" }) // Allow JSON bodies up to 5MB for image uploads.
+);
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
 // Global error handler to catch payload size issues.
@@ -40,23 +43,33 @@ app.use(
   })
 );
 
-// Set up authentication and messaging routes.
-app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoutes);
-
-app.use("/api/admin", adminRoutes);
-
-//Google Login Services.
+// Set up durable, in-process session store via memorystore.
+// This avoids the default MemoryStore’s memory leak issues in production.
+const Store = MemoryStore(session);
 app.use(
   session({
+    store: new Store({
+      checkPeriod: 24 * 60 * 60 * 1000, // Prune expired entries every 24h.
+    }),
     secret: process.env.SESSION_SECRET || "keyboard cat",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day.
+    },
   })
 );
+
+// Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Mount API routes.
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/admin", adminRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));
