@@ -35,13 +35,13 @@ router.get("/check", protectRoute, checkAuth);
 
 // Google OAuth initiation.
 router.get(
-  "/google",
+  "/api/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 // Google OAuth callback.
 router.get(
-  "/google/callback",
+  "/api/auth/google/callback",
   passport.authenticate("google", {
     session: false,
     failureRedirect: "http://localhost:5173/login",
@@ -52,13 +52,13 @@ router.get(
   }
 );
 
-// GitHu OAuth callback.
+// GitHub OAuth callback.
 router.get(
-  "/github",
+  "/api/auth/github",
   passport.authenticate("github", { scope: ["user:email"] })
 );
 router.get(
-  "/github/callback",
+  "/api/auth/github/callback",
   passport.authenticate("github", {
     session: false,
     failureRedirect: "/login",
