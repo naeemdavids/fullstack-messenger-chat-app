@@ -4,6 +4,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import { generateToken } from "./generateToken.js";
 
 config(); // Load environment variables from .env file.
 
@@ -17,7 +18,7 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
-    async (profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       try {
         // Find or create user, extract email & display name.
         let user = await User.findOne({ email: profile.emails[0].value });
@@ -55,7 +56,7 @@ passport.use(
       callbackURL: process.env.GITHUB_CALLBACK_URL,
       scope: ["user:email"], // request email.
     },
-    async (profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       try {
         // Grab the first email GitHub gives you.
         const email =
