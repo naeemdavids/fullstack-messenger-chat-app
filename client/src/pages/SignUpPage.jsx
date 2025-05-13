@@ -158,14 +158,14 @@ const SignUpPage = () => {
         {/*Sign up with Google. */}
         <div className="flex flex-col items-center gap-2 mt-4">
           <a
-            href="http://localhost:5001/api/auth/google"
+            href="https://fullstack-messenger-chat-app.onrender.com/api/auth/google"
             className="btn btn-outline w-full flex items-center justify-center gap-2"
           >
             <FcGoogle size={20} />
             Sign up with Google
           </a>
           <a
-            href="http://localhost:5001/api/auth/github"
+            href="https://fullstack-messenger-chat-app.onrender.com/api/auth/github"
             className="btn btn-outline w-full flex items-center justify-center gap-2 mt-4"
           >
             <FaGithub size={20} />
