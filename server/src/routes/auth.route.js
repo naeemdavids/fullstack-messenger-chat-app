@@ -44,11 +44,11 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: "/login",
   }),
   (req, res) => {
     generateToken(req.user._id, res);
-    res.redirect("http://localhost:5173/");
+    res.redirect("https://fullstack-messenger-chat-app.onrender.com/");
   }
 );
 
@@ -65,7 +65,7 @@ router.get(
   }),
   (req, res) => {
     generateToken(req.user._id, res);
-    res.redirect("http://localhost:5173/");
+    res.redirect("https://fullstack-messenger-chat-app.onrender.com/");
   }
 );
 
