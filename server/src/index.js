@@ -79,8 +79,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// Start the server and connect to the database.
-server.listen(PORT, () => {
-  console.log("Server is Running on Port:" + PORT);
+// Start the server and connect to the database, bind to all interfaces so Render’s health‐check can detect it.
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is Running on Port: ${PORT}`);
   connectDB(); // Ensure that the database is connected once the server starts.
 });
