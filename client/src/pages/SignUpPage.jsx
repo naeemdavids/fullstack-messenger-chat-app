@@ -5,9 +5,6 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 //The sign up if you want to use the app.
 const SignUpPage = () => {
@@ -161,14 +158,14 @@ const SignUpPage = () => {
         {/*Sign up with Google. */}
         <div className="flex flex-col items-center gap-2 mt-4">
           <a
-            href={`${import.meta.env.VITE_API_BASE_URL}/api/auth/google`}
+            href="https://fullstack-messenger-chat-app.onrender.com/api/auth/google"
             className="btn btn-outline w-full flex items-center justify-center gap-2"
           >
             <FcGoogle size={20} />
             Sign up with Google
           </a>
           <a
-            href={`${import.meta.env.VITE_API_BASE_URL}/api/auth/github`}
+            href="https://fullstack-messenger-chat-app.onrender.com/api/auth/github"
             className="btn btn-outline w-full flex items-center justify-center gap-2 mt-4"
           >
             <FaGithub size={20} />

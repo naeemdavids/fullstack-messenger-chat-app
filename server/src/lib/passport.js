@@ -10,16 +10,13 @@ config(); // Load environment variables from .env file.
 
 //The following code is for the Google and Github login.
 
-// Load process.env.GOOGLE_CALLBACK_URL from env file or Render dashboard.
-const googleCallback = process.env.GOOGLE_CALLBACK_URL;
-
 //1)Google.
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID, // From Google Console.
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: googleCallback,
+      callbackURL: "/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -50,15 +47,13 @@ passport.use(
   )
 );
 
-const githubCallback = process.env.GITHUB_CALLBACK_URL;
-
 //2)GitHub.
 passport.use(
   new GitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: githubCallback,
+      callbackURL: "/api/auth/github/callback",
       scope: ["user:email"], // request email.
     },
     async (accessToken, refreshToken, profile, done) => {
