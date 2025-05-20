@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuthenticationStore } from "../store/useAuthenticationStore";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, Settings, User, House } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -56,6 +56,10 @@ const Navbar = () => {
 
           {/* Settings, Profile, Logout. */}
           <div className="flex items-center gap-2">
+            <Link to="/" className="btn btn-sm gap-2 transition-colors">
+              <House className="w-4 h-4" />
+              <span className="hidden sm:inline">Home</span>
+            </Link>
             <Link to="/settings" className="btn btn-sm gap-2 transition-colors">
               <Settings className="w-4 h-4" />
               <span className="hidden sm:inline">Settings</span>
